@@ -21,3 +21,9 @@ func MachineCode(file *os.File) string {
 	file.Read(buf)
 	return string(buf)
 }
+
+func User(file *os.File) string {
+	buf := make([]byte, 18)
+	file.Read(buf)
+	return string(buf)
+}

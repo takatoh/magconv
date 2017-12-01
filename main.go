@@ -25,4 +25,7 @@ func main() {
 
 	machineCode := mag.MachineCode(magfile)
 	fmt.Println(machineCode)
+
+	user := mag.User(magfile)
+	fmt.Println(user)
 }
