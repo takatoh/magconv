@@ -21,7 +21,7 @@ func main() {
 		fmt.Fprintln(os.Stderr, "Not MAG format")
 		os.Exit(0)
 	}
-	fmt.Println("Not MAG format")
+	fmt.Println("MAG format")
 
 	machineCode := mag.MachineCode(magfile)
 	fmt.Println(machineCode)
