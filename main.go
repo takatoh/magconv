@@ -17,9 +17,9 @@ func main() {
 	defer magfile.Close()
 
 	check := mag.CheckMag(magfile)
-	if check {
-		fmt.Println("MAG format")
-	} else {
-		fmt.Println("Not MAG format")
+	if !check {
+		fmt.Fprintln(os.Stderr, "Not MAG format")
+		os.Exit(0)
 	}
+	mmt.Println("Not MAG format")
 }
