@@ -15,3 +15,9 @@ func CheckMag(file *os.File) bool {
 		return false
 	}
 }
+
+func MachineCode(file *os.File) string {
+	buf := make([]byte, 4)
+	file.Read(buf)
+	return string(buf)
+}
