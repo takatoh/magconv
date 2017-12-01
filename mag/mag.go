@@ -109,7 +109,6 @@ func ReadHeader(file *os.File) *MagHeader {
 		ReadUint8(file)
 	}
 
-//	var colors int
 	mode := ReadUint8(file)
 	mode = mode >> 7
 	if mode == 1 {
@@ -117,21 +116,17 @@ func ReadHeader(file *os.File) *MagHeader {
 	} else {
 		header.Colors = 16
 	}
-//	fmt.Printf("colors=%d\n", colors)
 
 	header.StartX = ReadUint16(file)
 	header.StartY = ReadUint16(file)
 	header.EndX = ReadUint16(file)
 	header.EndY = ReadUint16(file)
-//	fmt.Println(sx, sy, ex, ey)
-
 	header.FlgAOffset = ReadUint32(file)
 	header.FlgBOffset = ReadUint32(file)
 	header.FlgASize = header.FlgBOffset - header.FlgAOffset
 	header.FlgBSize = ReadUint32(file)
 	header.PxOffset = ReadUint32(file)
 	header.PxSize = ReadUint32(file)
-
 	header.Width = header.EndX - header.StartX + 1
 	header.Height = header.EndY - header.StartY + 1
 
