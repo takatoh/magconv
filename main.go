@@ -31,4 +31,15 @@ func main() {
 
 	comment := mag.Comment(magfile)
 	fmt.Println(comment)
+
+	for i := 0; i < 4; i++ {
+		x := mag.ReadUint8(magfile)
+		fmt.Printf("%d\n", x)
+	}
+
+	sx := mag.ReadUint16(magfile)
+	sy := mag.ReadUint16(magfile)
+	ex := mag.ReadUint16(magfile)
+	ey := mag.ReadUint16(magfile)
+	fmt.Println(sx, sy, ex, ey)
 }

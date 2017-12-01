@@ -4,6 +4,8 @@ import (
 	"os"
 //	"io"
 	"bufio"
+	"bytes"
+	"encoding/binary"
 )
 
 func CheckMag(file *os.File) bool {
@@ -39,4 +41,20 @@ func Comment(file *os.File) string {
 		buf = append(buf, c)
 	}
 	return string(buf)
+}
+
+func ReadUint8(file *os.File) uint8 {
+	b := make([]byte, 1)
+	file.Read(b)
+	var val uint8
+	binary.Read(bytes.NewBuffer(b), binary.BigEndian, &val)
+	return val
+}
+
+func ReadUint16(file *os.File) uint16 {
+	b := make([]byte, 2)
+	file.Read(b)
+	var val uint16
+	binary.Read(bytes.NewBuffer(b), binary.BigEndian, &val)
+	return val
 }
