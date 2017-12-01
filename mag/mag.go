@@ -6,6 +6,10 @@ import (
 	"bufio"
 	"bytes"
 	"encoding/binary"
+	"strings"
+
+	"golang.org/x/text/encoding/japanese"
+	"golang.org/x/text/transform"
 )
 
 func CheckMag(file *os.File) bool {
@@ -29,7 +33,7 @@ func MachineCode(file *os.File) string {
 func User(file *os.File) string {
 	buf := make([]byte, 18)
 	file.Read(buf)
-	return string(buf)
+	return convertFromShiftJIS(buf)
 }
 
 func Comment(file *os.File) string {
@@ -40,7 +44,17 @@ func Comment(file *os.File) string {
 		if c == 0x1A { break }
 		buf = append(buf, c)
 	}
-	return string(buf)
+	return convertFromShiftJIS(buf)
+}
+
+func convertFromShiftJIS(b []byte) string {
+	r := strings.NewReader(string(b))
+	s := bufio.NewScanner(transform.NewReader(r, japanese.ShiftJIS.NewDecoder()))
+	list := make([]string, 0)
+	for s.Scan() {
+		list = append(list, s.Text())
+	}
+	return strings.Join(list, "")
 }
 
 func ReadUint8(file *os.File) uint8 {
