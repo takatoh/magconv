@@ -12,6 +12,27 @@ import (
 	"golang.org/x/text/transform"
 )
 
+type MagHeader struct {
+	Colors     uint8
+	StartX     uint16
+	StartY     uint16
+	EndX       uint16
+	EndY       uint16
+	FlgAOffset uint32
+	FlgASize   uint32
+	FlgBOffset uint32
+	FlgBSize   uint32
+	PxOffset   uint32
+	PxSize     uint32
+	Width      uint16
+	Height     uint16
+}
+
+func NewMagHeader() {
+	p := new(MagHeader)
+	return p
+}
+
 func CheckMag(file *os.File) bool {
 	buf := make([]byte, 8)
 	n, _ := file.Read(buf)
