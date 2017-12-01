@@ -42,4 +42,14 @@ func main() {
 	ex := mag.ReadUint16(magfile)
 	ey := mag.ReadUint16(magfile)
 	fmt.Println(sx, sy, ex, ey)
+
+	flgAOffset := mag.ReadUint32(magfile)
+	flgBOffset := mag.ReadUint32(magfile)
+	flgASize := flgBOffset - flgAOffset
+	flgBSize := mag.ReadUint32(magfile)
+	pxOffset := mag.ReadUint32(magfile)
+	pxSize := mag.ReadUint32(magfile)
+	fmt.Printf("FlagA: offset=%d size=%d\n", flgAOffset, flgASize)
+	fmt.Printf("FlagB: offset=%d size=%d\n", flgBOffset, flgBSize)
+	fmt.Printf("Pixel: offset=%d size=%d\n", pxOffset, pxSize)
 }
