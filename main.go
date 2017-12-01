@@ -32,34 +32,11 @@ func main() {
 	comment := mag.Comment(magfile)
 	fmt.Println(comment)
 
-	for i := 0; i < 3; i++ {
-		mag.ReadUint8(magfile)
-//		fmt.Printf("%d\n", x)
-	}
-
-	var colors int
-	mode := mag.ReadUint8(magfile)
-	mode = mode >> 7
-	if mode == 1 {
-		colors = 256
-	} else {
-		colors = 16
-	}
-	fmt.Printf("colors=%d\n", colors)
-
-	sx := mag.ReadUint16(magfile)
-	sy := mag.ReadUint16(magfile)
-	ex := mag.ReadUint16(magfile)
-	ey := mag.ReadUint16(magfile)
-	fmt.Println(sx, sy, ex, ey)
-
-	flgAOffset := mag.ReadUint32(magfile)
-	flgBOffset := mag.ReadUint32(magfile)
-	flgASize := flgBOffset - flgAOffset
-	flgBSize := mag.ReadUint32(magfile)
-	pxOffset := mag.ReadUint32(magfile)
-	pxSize := mag.ReadUint32(magfile)
-	fmt.Printf("FlagA: offset=%d size=%d\n", flgAOffset, flgASize)
-	fmt.Printf("FlagB: offset=%d size=%d\n", flgBOffset, flgBSize)
-	fmt.Printf("Pixel: offset=%d size=%d\n", pxOffset, pxSize)
+	header := mag.ReadHeader(magfile)
+	fmt.Printf("colors=%d\n", header.Colors)
+	fmt.Println(header.StartX, header.StartY, header.EndX, header.EndY)
+	fmt.Printf("width=%d, height=%d\n", header.Width, header.Height)
+	fmt.Printf("FlagA: offset=%d size=%d\n", header.FlgAOffset, header.FlgASize)
+	fmt.Printf("FlagB: offset=%d size=%d\n", header.FlgBOffset, header.FlgBSize)
+	fmt.Printf("Pixel: offset=%d size=%d\n", header.PxOffset, header.PxSize)
 }
