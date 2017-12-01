@@ -61,7 +61,7 @@ func ReadUint8(file *os.File) uint8 {
 	b := make([]byte, 1)
 	file.Read(b)
 	var val uint8
-	binary.Read(bytes.NewBuffer(b), binary.BigEndian, &val)
+	binary.Read(bytes.NewBuffer(b), binary.LittleEndian, &val)
 	return val
 }
 
@@ -69,6 +69,6 @@ func ReadUint16(file *os.File) uint16 {
 	b := make([]byte, 2)
 	file.Read(b)
 	var val uint16
-	binary.Read(bytes.NewBuffer(b), binary.BigEndian, &val)
+	binary.Read(bytes.NewBuffer(b), binary.LittleEndian, &val)
 	return val
 }
