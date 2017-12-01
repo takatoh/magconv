@@ -72,3 +72,11 @@ func ReadUint16(file *os.File) uint16 {
 	binary.Read(bytes.NewBuffer(b), binary.LittleEndian, &val)
 	return val
 }
+
+func ReadUint32(file *os.File) uint32 {
+	b := make([]byte, 4)
+	file.Read(b)
+	var val uint32
+	binary.Read(bytes.NewBuffer(b), binary.LittleEndian, &val)
+	return val
+}
