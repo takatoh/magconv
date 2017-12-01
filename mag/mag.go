@@ -101,3 +101,39 @@ func ReadUint32(file *os.File) uint32 {
 	binary.Read(bytes.NewBuffer(b), binary.LittleEndian, &val)
 	return val
 }
+
+func ReadHeader(file *os.File) *MagHeader {
+	header := NewMagHeader()
+
+	for i := 0; i < 3; i++ {
+		ReadUint8(file)
+	}
+
+//	var colors uint8
+	mode := ReadUint8(file)
+	mode = mode >> 7
+	if mode == 1 {
+		header.Colors = 256
+	} else {
+		header.Colors = 16
+	}
+//	fmt.Printf("colors=%d\n", colors)
+
+	header.StartX = ReadUint16(file)
+	header.StartY = ReadUint16(file)
+	header.EndX = ReadUint16(file)
+	header.EndY = ReadUint16(file)
+//	fmt.Println(sx, sy, ex, ey)
+
+	header.FlgAOffset = ReadUint32(file)
+	header.FlgBOffset = ReadUint32(file)
+	header.FlgASize = header.FlgBOffset - header.FlgAOffset
+	header.FlgBSize = ReadUint32(file)
+	header.PxOffset = ReadUint32(file)
+	header.PxSize = ReadUint32(file)
+
+	header.Width = header.EndX - header.StartX + 1
+	header.Height = header.EndY - header.StartY + 1
+
+	return header
+}
