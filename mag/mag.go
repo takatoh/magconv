@@ -13,7 +13,7 @@ import (
 )
 
 type MagHeader struct {
-	Colors     uint8
+	Colors     int
 	StartX     uint16
 	StartY     uint16
 	EndX       uint16
@@ -28,7 +28,7 @@ type MagHeader struct {
 	Height     uint16
 }
 
-func NewMagHeader() {
+func NewMagHeader() *MagHeader {
 	p := new(MagHeader)
 	return p
 }
@@ -109,7 +109,7 @@ func ReadHeader(file *os.File) *MagHeader {
 		ReadUint8(file)
 	}
 
-//	var colors uint8
+//	var colors int
 	mode := ReadUint8(file)
 	mode = mode >> 7
 	if mode == 1 {
