@@ -28,4 +28,7 @@ func main() {
 
 	user := mag.User(magfile)
 	fmt.Println(user)
+
+	comment := mag.Comment(magfile)
+	fmt.Println(comment)
 }

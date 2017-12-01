@@ -2,6 +2,8 @@ package mag
 
 import (
 	"os"
+//	"io"
+	"bufio"
 )
 
 func CheckMag(file *os.File) bool {
@@ -25,5 +27,16 @@ func MachineCode(file *os.File) string {
 func User(file *os.File) string {
 	buf := make([]byte, 18)
 	file.Read(buf)
+	return string(buf)
+}
+
+func Comment(file *os.File) string {
+	r := bufio.NewReader(file)
+	buf := make([]byte, 0)
+	for {
+		c, _ := r.ReadByte()
+		if c == 0x1A { break }
+		buf = append(buf, c)
+	}
 	return string(buf)
 }
