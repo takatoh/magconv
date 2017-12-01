@@ -31,18 +31,18 @@ func MachineCode(file *os.File) string {
 }
 
 func User(file *os.File) string {
-	buf := make([]byte, 18)
+	buf := make([]byte, 18 + 2)
 	file.Read(buf)
-	return convertFromShiftJIS(buf)
+	return convertFromShiftJIS(buf[0:18])
 }
 
 func Comment(file *os.File) string {
-	r := bufio.NewReader(file)
+	c := make([]byte, 1)
 	buf := make([]byte, 0)
 	for {
-		c, _ := r.ReadByte()
-		if c == 0x1A { break }
-		buf = append(buf, c)
+		file.Read(c)
+		if c[0] == 0x1A { break }
+		buf = append(buf, c[0])
 	}
 	return convertFromShiftJIS(buf)
 }
