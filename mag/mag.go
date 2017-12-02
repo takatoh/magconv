@@ -33,6 +33,20 @@ func NewMagHeader() *MagHeader {
 	return p
 }
 
+type Pallet struct {
+	R uint8
+	G uint8
+	B uint8
+}
+
+func NewPallet(g, r, b uint8) *Pallet {
+	p := new(Pallet)
+	p.R = r
+	p.G = g
+	p.B = b
+	return p
+}
+
 func CheckMag(file *os.File) bool {
 	buf := make([]byte, 8)
 	n, _ := file.Read(buf)
