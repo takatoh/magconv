@@ -41,4 +41,10 @@ func main() {
 		fmt.Printf("Pixel: offset=%d size=%d\n", header.PxOffset, header.PxSize)
 		os.Exit(0)
 	}
+
+	pallets := mag.ReadPallets(magfile, header.Colors)
+	fmt.Println("Pallets:")
+	for i, pallet := range pallets {
+		fmt.Printf("%d: r=%02x, g=%02x, b=%02x\n", i, pallet.R, pallet.G, pallet.B)
+	}
 }

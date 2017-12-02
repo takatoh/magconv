@@ -146,3 +146,14 @@ func ReadHeader(file *os.File) *MagHeader {
 
 	return header
 }
+
+func ReadPallets(file *os.File, n int) []*Pallet {
+	pallets := make([]*Pallet, 0)
+	for i := 0; i < n; i++ {
+		g := ReadUint8(file) >> 4
+		r := ReadUint8(file) >> 4
+		b := ReadUint8(file) >> 4
+		pallets = append(pallets, NewPallet(g, r, b))
+	}
+	return pallets
+}
