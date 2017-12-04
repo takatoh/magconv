@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	opt_information := flag.Bool("information", false, "Display informations.")
+	opt_info := flag.Bool("info", false, "Display informations.")
 	flag.Parse()
 
 	filename := flag.Args()[0]
@@ -31,7 +31,7 @@ func main() {
 	comment := mag.Comment(magfile)
 	header := mag.ReadHeader(magfile)
 
-	if *opt_information {
+	if *opt_info {
 		fmt.Printf("user=%s\n", user)
 		fmt.Printf("comment=%s\n", comment)
 		fmt.Printf("colors=%d\n", header.Colors)
