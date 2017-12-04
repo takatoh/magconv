@@ -21,6 +21,7 @@ func main() {
 	opt_info := flag.Bool("info", false, "Display informations.")
 	opt_printflag := flag.Bool("printflag", false, "Print flag A and B.")
 	opt_palettes := flag.Bool("palettes", false, "Print palettes.")
+	opt_pixels := flag.Bool("pixels", false, "Print pixels.")
 	flag.Parse()
 
 	filename := flag.Args()[0]
@@ -67,6 +68,11 @@ func main() {
 	if *opt_printflag {
 		printFlag(flagA, "Flag A", header.FlgASize)
 		printFlag(flagB, "Flag B", header.FlgBSize)
+	}
+
+	pixel := mag.ReadPixel(magfile, header.PxSize)
+	if *opt_pixels {
+		printFlag(pixel, "Pixels", header.PxSize)
 	}
 
 	var pixelUnitLog uint
