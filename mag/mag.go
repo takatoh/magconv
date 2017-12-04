@@ -169,3 +169,9 @@ func ReadFlagB(file *os.File, size uint32) []byte {
 	file.Read(flgB)
 	return flgB
 }
+
+func ReadPixel(file *os.File, size uint32) []byte {
+	pxl := make([]byte, size)
+	file.Read(pxl)
+	return pxl
+}
