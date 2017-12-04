@@ -42,9 +42,9 @@ func main() {
 		os.Exit(0)
 	}
 
-	pallets := mag.ReadPallets(magfile, header.Colors)
-	fmt.Println("Pallets:")
-	for i, pallet := range pallets {
-		fmt.Printf("%d: r=%02x, g=%02x, b=%02x\n", i, pallet.R, pallet.G, pallet.B)
+	palettes := mag.ReadPalettes(magfile, header.Colors)
+	fmt.Println("Palettes:")
+	for i, palette := range palettes {
+		fmt.Printf("%d: r=%02x, g=%02x, b=%02x\n", i, palette.R, palette.G, palette.B)
 	}
 }

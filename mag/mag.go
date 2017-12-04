@@ -33,14 +33,14 @@ func NewHeader() *Header {
 	return p
 }
 
-type Pallet struct {
+type Palette struct {
 	R uint8
 	G uint8
 	B uint8
 }
 
-func NewPallet(g, r, b uint8) *Pallet {
-	p := new(Pallet)
+func NewPalette(g, r, b uint8) *Palette {
+	p := new(Palette)
 	p.R = r
 	p.G = g
 	p.B = b
@@ -147,13 +147,13 @@ func ReadHeader(file *os.File) *Header {
 	return header
 }
 
-func ReadPallets(file *os.File, n int) []*Pallet {
-	pallets := make([]*Pallet, 0)
+func ReadPalettes(file *os.File, n int) []*Palette {
+	palettes := make([]*Palette, 0)
 	for i := 0; i < n; i++ {
 		g := ReadUint8(file) >> 4
 		r := ReadUint8(file) >> 4
 		b := ReadUint8(file) >> 4
-		pallets = append(pallets, NewPallet(g, r, b))
+		palettes = append(palettes, NewPalette(g, r, b))
 	}
-	return pallets
+	return palettes
 }
