@@ -20,6 +20,7 @@ func printFlag(flag []byte, name string, size uint32) {
 func main() {
 	opt_info := flag.Bool("info", false, "Display informations.")
 	opt_printflag := flag.Bool("printflag", false, "Print flag A and B.")
+	opt_palettes := flag.Bool("palettes", false, "Print palettes.")
 	flag.Parse()
 
 	filename := flag.Args()[0]
@@ -63,9 +64,11 @@ func main() {
 //	fmt.Printf("flag size=%d\n", flagSize)
 
 	palettes := mag.ReadPalettes(magfile, header.Colors)
-	fmt.Println("Palettes:")
-	for i, palette := range palettes {
-		fmt.Printf("%d: r=%02x, g=%02x, b=%02x\n", i, palette.R, palette.G, palette.B)
+	if *opt_palettes {
+		fmt.Println("Palettes:")
+		for i, palette := range palettes {
+			fmt.Printf("%d: r=%02x, g=%02x, b=%02x\n", i, palette.R, palette.G, palette.B)
+		}
 	}
 
 	flagA := mag.ReadFlagA(magfile, header.FlgASize)
