@@ -54,15 +54,6 @@ func main() {
 		os.Exit(0)
 	}
 
-//	var pixelUnitLog uint
-//	if header.Colors == 256 {
-//		pixelUnitLog = 1
-//	} else {
-//		pixelUnitLog = 2
-//	}
-//	flagSize := header.Width >> (pixelUnitLog + 1)
-//	fmt.Printf("flag size=%d\n", flagSize)
-
 	palettes := mag.ReadPalettes(magfile, header.Colors)
 	if *opt_palettes {
 		fmt.Println("Palettes:")
@@ -77,4 +68,13 @@ func main() {
 		printFlag(flagA, "Flag A", header.FlgASize)
 		printFlag(flagB, "Flag B", header.FlgBSize)
 	}
+
+	var pixelUnitLog uint
+	if header.Colors == 256 {
+		pixelUnitLog = 1
+	} else {
+		pixelUnitLog = 2
+	}
+	flagSize := header.Width >> (pixelUnitLog + 1)
+	fmt.Printf("flag size=%d\n", flagSize)
 }
