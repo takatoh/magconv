@@ -19,6 +19,7 @@ func printFlag(flag []byte, name string, size uint32) {
 
 func main() {
 	opt_info := flag.Bool("info", false, "Display informations.")
+	opt_printflag := flag.Bool("printflag", false, "Print flag A and B.")
 	flag.Parse()
 
 	filename := flag.Args()[0]
@@ -69,6 +70,8 @@ func main() {
 
 	flagA := mag.ReadFlagA(magfile, header.FlgASize)
 	flagB := mag.ReadFlagB(magfile, header.FlgBSize)
-	printFlag(flagA, "Flag A", header.FlgASize)
-	printFlag(flagB, "Flag B", header.FlgBSize)
+	if *opt_printflag {
+		printFlag(flagA, "Flag A", header.FlgASize)
+		printFlag(flagB, "Flag B", header.FlgBSize)
+	}
 }
