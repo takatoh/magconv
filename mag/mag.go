@@ -12,7 +12,7 @@ import (
 	"golang.org/x/text/transform"
 )
 
-type MagHeader struct {
+type Header struct {
 	Colors     int
 	StartX     uint16
 	StartY     uint16
@@ -28,8 +28,8 @@ type MagHeader struct {
 	Height     uint16
 }
 
-func NewMagHeader() *MagHeader {
-	p := new(MagHeader)
+func NewHeader() *Header {
+	p := new(Header)
 	return p
 }
 
@@ -116,8 +116,8 @@ func ReadUint32(file *os.File) uint32 {
 	return val
 }
 
-func ReadHeader(file *os.File) *MagHeader {
-	header := NewMagHeader()
+func ReadHeader(file *os.File) *Header {
+	header := NewHeader()
 
 	for i := 0; i < 3; i++ {
 		ReadUint8(file)
