@@ -47,4 +47,16 @@ func main() {
 	for i, palette := range palettes {
 		fmt.Printf("%d: r=%02x, g=%02x, b=%02x\n", i, palette.R, palette.G, palette.B)
 	}
+
+	flagA := mag.ReadFlagA(magfile, header.FlgASize)
+	flagB := mag.ReadFlagB(magfile, header.FlgBSize)
+	fmt.Println("FlagA:")
+	var i uint32
+	for i = 0; i < header.FlgASize; i++ {
+		fmt.Printf("%08b\n", flagA[i])
+	}
+	fmt.Println("FlagB:")
+	for i = 0; i < header.FlgBSize; i++ {
+		fmt.Printf("%08b\n", flagB[i])
+	}
 }

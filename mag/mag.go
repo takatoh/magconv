@@ -157,3 +157,15 @@ func ReadPalettes(file *os.File, n int) []*Palette {
 	}
 	return palettes
 }
+
+func ReadFlagA(file *os.File, size uint32) []byte {
+	flgA := make([]byte, size)
+	file.Read(flgA)
+	return flgA
+}
+
+func ReadFlagB(file *os.File, size uint32) []byte {
+	flgB := make([]byte, size)
+	file.Read(flgB)
+	return flgB
+}
