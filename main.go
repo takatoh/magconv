@@ -8,6 +8,15 @@ import (
 	"github.com/takatoh/magconv/mag"
 )
 
+func printFlag(flag []byte, name string, size uint32) {
+	flagLen := len(flag)
+	fmt.Printf("%s: %d\n", name, flagLen)
+	var i uint32
+	for i = 0; i < size; i++ {
+		fmt.Printf("%08b\n", flag[i])
+	}
+}
+
 func main() {
 	opt_info := flag.Bool("info", false, "Display informations.")
 	flag.Parse()
@@ -39,8 +48,18 @@ func main() {
 		fmt.Printf("FlagA: offset=%d size=%d\n", header.FlgAOffset, header.FlgASize)
 		fmt.Printf("FlagB: offset=%d size=%d\n", header.FlgBOffset, header.FlgBSize)
 		fmt.Printf("Pixel: offset=%d size=%d\n", header.PxOffset, header.PxSize)
+
 		os.Exit(0)
 	}
+
+//	var pixelUnitLog uint
+//	if header.Colors == 256 {
+//		pixelUnitLog = 1
+//	} else {
+//		pixelUnitLog = 2
+//	}
+//	flagSize := header.Width >> (pixelUnitLog + 1)
+//	fmt.Printf("flag size=%d\n", flagSize)
 
 	palettes := mag.ReadPalettes(magfile, header.Colors)
 	fmt.Println("Palettes:")
@@ -50,13 +69,6 @@ func main() {
 
 	flagA := mag.ReadFlagA(magfile, header.FlgASize)
 	flagB := mag.ReadFlagB(magfile, header.FlgBSize)
-	fmt.Println("FlagA:")
-	var i uint32
-	for i = 0; i < header.FlgASize; i++ {
-		fmt.Printf("%08b\n", flagA[i])
-	}
-	fmt.Println("FlagB:")
-	for i = 0; i < header.FlgBSize; i++ {
-		fmt.Printf("%08b\n", flagB[i])
-	}
+	printFlag(flagA, "Flag A", header.FlgASize)
+	printFlag(flagB, "Flag B", header.FlgBSize)
 }
