@@ -91,8 +91,8 @@ func main() {
 		copypos[i] = -(copyy[i] * int(header.Width) + (copyx[i] << pixelUnitLog))
 	}
 
-//	data := make([]*mag.Palette, 0)
-	data := make([]byte, 0)
+	data := make([]*mag.Palette, 0)
+//	data := make([]byte, 0)
 	src := 0
 	dest := 0
 
@@ -121,18 +121,18 @@ func main() {
 				fmt.Printf("(%d, %d) %d: ", x, y, v)
 				if header.Colors == 16 {
 					c := (pixel[src] >> 4)
-					fmt.Printf("%d,", c)
-					data = append(data, c)
+					fmt.Printf("%v,", palettes[c])
+					data = append(data, palettes[c])
 					c = (pixel[src] & 0xf)
-					fmt.Printf("%d,", c)
-					data = append(data, c)
+					fmt.Printf("%v,", palettes[c])
+					data = append(data, palettes[c])
 					src++
 					c = (pixel[src] >> 4)
-					fmt.Printf("%d,", c)
-					data = append(data, c)
+					fmt.Printf("%v,", palettes[c])
+					data = append(data, palettes[c])
 					c = (pixel[src] & 0xf)
-					fmt.Printf("%d\n", c)
-					data = append(data, c)
+					fmt.Printf("%v\n", palettes[c])
+					data = append(data, palettes[c])
 					src++
 					dest += 4
 				}
@@ -140,7 +140,7 @@ func main() {
 				fmt.Printf("(%d, %d) %d: ", x, y, v)
 				if header.Colors == 16 {
 					copySrc := dest + copypos[v]
-					fmt.Printf("%d,%d,%d,%d\n", data[copySrc], data[copySrc + 1], data[copySrc + 2], data[copySrc + 3])
+					fmt.Printf("%v,%v,%v,%v\n", data[copySrc], data[copySrc + 1], data[copySrc + 2], data[copySrc + 3])
 					data = append(data, data[copySrc])
 					data = append(data, data[copySrc + 1])
 					data = append(data, data[copySrc + 2])
@@ -153,18 +153,18 @@ func main() {
 				fmt.Printf("(%d, %d) %d: ", x, y, v)
 				if header.Colors == 16 {
 					c := (pixel[src] >> 4)
-					fmt.Printf("%d,", c)
-					data = append(data, c)
+					fmt.Printf("%v,", palettes[c])
+					data = append(data, palettes[c])
 					c = (pixel[src] & 0xf)
-					fmt.Printf("%d,", c)
-					data = append(data, c)
+					fmt.Printf("%v,", palettes[c])
+					data = append(data, palettes[c])
 					src++
 					c = (pixel[src] >> 4)
-					fmt.Printf("%d,", c)
-					data = append(data, c)
+					fmt.Printf("%v,", palettes[c])
+					data = append(data, palettes[c])
 					c = (pixel[src] & 0xf)
-					fmt.Printf("%d\n", c)
-					data = append(data, c)
+					fmt.Printf("%v\n", palettes[c])
+					data = append(data, palettes[c])
 					src++
 					dest += 4
 				}
@@ -172,7 +172,7 @@ func main() {
 				fmt.Printf("(%d, %d) %d: ", x, y, v)
 				if header.Colors == 16 {
 					copySrc := dest + copypos[v]
-					fmt.Printf("%d,%d,%d,%d\n", data[copySrc], data[copySrc + 1], data[copySrc + 2], data[copySrc + 3])
+					fmt.Printf("%v,%v,%v,%v\n", data[copySrc], data[copySrc + 1], data[copySrc + 2], data[copySrc + 3])
 					data = append(data, data[copySrc])
 					data = append(data, data[copySrc + 1])
 					data = append(data, data[copySrc + 2])
