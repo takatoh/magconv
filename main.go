@@ -82,5 +82,26 @@ func main() {
 		pixelUnitLog = 2
 	}
 	flagSize := header.Width >> (pixelUnitLog + 1)
-	fmt.Printf("flag size=%d\n", flagSize)
+//	fmt.Printf("flag size=%d\n", flagSize)
+
+	flagBuf := make([]byte, flagSize)
+	var flagAPos int
+	var flagBPos int
+
+	var x, y uint16
+	var mask uint8 = 0x80
+	for y = 0; y < header.Height; y++ {
+		for x = 0; x < flagSize; x++ {
+			if flagA[flagAPos] & mask != 0x00 {
+				flagBuf[x] = flagBuf[x] ^ flagB[flagBPos]
+				flagBPos++
+			}
+			mask = mask >> 1
+			if mask == 0 {
+				mask = 0x80
+				flagAPos++
+			}
+			fmt.Println(flagBuf)
+		}
+	}
 }
