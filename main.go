@@ -7,6 +7,8 @@ import (
 	"image"
 	"image/color"
 	"image/png"
+	"path"
+	"strings"
 
 	"github.com/takatoh/magconv/mag"
 )
@@ -206,7 +208,9 @@ func main() {
 		}
 	}
 
-	f, err := os.OpenFile("sample.png", os.O_WRONLY|os.O_CREATE, 0600)
+	ext := path.Ext(filename)
+	pngFilename := strings.Replace(filename, ext, ".png", 1)
+	f, err := os.OpenFile(pngFilename, os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
 		fmt.Println(err)
 	}
