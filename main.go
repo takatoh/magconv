@@ -102,7 +102,7 @@ func main() {
 
 	var mask uint8 = 0x80
 	for y := 0; y < int(header.Height); y++ {
-		fmt.Println("---")
+//		fmt.Println("---")
 		for x := 0; x < int(flagSize); x++ {
 			if flagA[flagAPos] & mask != 0x00 {
 				flagBuf[x] = flagBuf[x] ^ flagB[flagBPos]
@@ -118,29 +118,29 @@ func main() {
 			vv := flagBuf[x]
 			v := vv >> 4
 			if v == 0 {
-				fmt.Printf("(%d, %d) %d: ", x, y, v)
+//				fmt.Printf("(%d, %d) %d: ", x, y, v)
 				if header.Colors == 16 {
 					c := (pixel[src] >> 4)
-					fmt.Printf("%v,", palettes[c])
+//					fmt.Printf("%v,", palettes[c])
 					data = append(data, palettes[c])
 					c = (pixel[src] & 0xf)
-					fmt.Printf("%v,", palettes[c])
+//					fmt.Printf("%v,", palettes[c])
 					data = append(data, palettes[c])
 					src++
 					c = (pixel[src] >> 4)
-					fmt.Printf("%v,", palettes[c])
+//					fmt.Printf("%v,", palettes[c])
 					data = append(data, palettes[c])
 					c = (pixel[src] & 0xf)
-					fmt.Printf("%v\n", palettes[c])
+//					fmt.Printf("%v\n", palettes[c])
 					data = append(data, palettes[c])
 					src++
 					dest += 4
 				}
 			} else {
-				fmt.Printf("(%d, %d) %d: ", x, y, v)
+//				fmt.Printf("(%d, %d) %d: ", x, y, v)
 				if header.Colors == 16 {
 					copySrc := dest + copypos[v]
-					fmt.Printf("%v,%v,%v,%v\n", data[copySrc], data[copySrc + 1], data[copySrc + 2], data[copySrc + 3])
+//					fmt.Printf("%v,%v,%v,%v\n", data[copySrc], data[copySrc + 1], data[copySrc + 2], data[copySrc + 3])
 					data = append(data, data[copySrc])
 					data = append(data, data[copySrc + 1])
 					data = append(data, data[copySrc + 2])
@@ -150,29 +150,29 @@ func main() {
 			}
 			v = vv & 0xf
 			if v == 0 {
-				fmt.Printf("(%d, %d) %d: ", x, y, v)
+//				fmt.Printf("(%d, %d) %d: ", x, y, v)
 				if header.Colors == 16 {
 					c := (pixel[src] >> 4)
-					fmt.Printf("%v,", palettes[c])
+//					fmt.Printf("%v,", palettes[c])
 					data = append(data, palettes[c])
 					c = (pixel[src] & 0xf)
-					fmt.Printf("%v,", palettes[c])
+//					fmt.Printf("%v,", palettes[c])
 					data = append(data, palettes[c])
 					src++
 					c = (pixel[src] >> 4)
-					fmt.Printf("%v,", palettes[c])
+//					fmt.Printf("%v,", palettes[c])
 					data = append(data, palettes[c])
 					c = (pixel[src] & 0xf)
-					fmt.Printf("%v\n", palettes[c])
+//					fmt.Printf("%v\n", palettes[c])
 					data = append(data, palettes[c])
 					src++
 					dest += 4
 				}
 			} else {
-				fmt.Printf("(%d, %d) %d: ", x, y, v)
+//				fmt.Printf("(%d, %d) %d: ", x, y, v)
 				if header.Colors == 16 {
 					copySrc := dest + copypos[v]
-					fmt.Printf("%v,%v,%v,%v\n", data[copySrc], data[copySrc + 1], data[copySrc + 2], data[copySrc + 3])
+//					fmt.Printf("%v,%v,%v,%v\n", data[copySrc], data[copySrc + 1], data[copySrc + 2], data[copySrc + 3])
 					data = append(data, data[copySrc])
 					data = append(data, data[copySrc + 1])
 					data = append(data, data[copySrc + 2])
@@ -180,6 +180,19 @@ func main() {
 					dest += 4
 				}
 			}
+		}
+	}
+
+	result := make([][]*mag.Palette, 0)
+	for y := 0; y < int(header.Height); y++ {
+		s := y * int(header.Width)
+		e := s + int(header.Width)
+		result = append(result, data[s:e])
+	}
+	for y := 0; y < int(header.Height); y++ {
+		fmt.Println("---")
+		for x := 0; x < int(header.Width); x++ {
+			fmt.Printf("%v\n", result[y][x])
 		}
 	}
 }
