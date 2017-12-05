@@ -61,6 +61,7 @@ func main() {
 		for i, palette := range palettes {
 			fmt.Printf("%d: r=%02x, g=%02x, b=%02x\n", i, palette.R, palette.G, palette.B)
 		}
+		os.Exit(0)
 	}
 
 	flagA := mag.ReadFlagA(magfile, header.FlgASize)
@@ -82,16 +83,27 @@ func main() {
 		pixelUnitLog = 2
 	}
 	flagSize := header.Width >> (pixelUnitLog + 1)
-//	fmt.Printf("flag size=%d\n", flagSize)
+
+	copyx := [16]int{ 0,1,2,4,0,1,0,1,2,0,1,2,0,1,2,0 } 
+	copyy := [16]int{ 0,0,0,0,1,1,2,2,2,4,4,4,8,8,8,16 }
+	var copypos [16]int
+	for i := 0; i < 16; i++ {
+		copypos[i] = -(copyy[i] * int(header.Width) + (copyx[i] << pixelUnitLog))
+	}
+
+//	data := make([]*mag.Palette, 0)
+	data := make([]byte, 0)
+	src := 0
+	dest := 0
 
 	flagBuf := make([]byte, flagSize)
 	var flagAPos int
 	var flagBPos int
 
-	var x, y uint16
 	var mask uint8 = 0x80
-	for y = 0; y < header.Height; y++ {
-		for x = 0; x < flagSize; x++ {
+	for y := 0; y < int(header.Height); y++ {
+		fmt.Println("---")
+		for x := 0; x < int(flagSize); x++ {
 			if flagA[flagAPos] & mask != 0x00 {
 				flagBuf[x] = flagBuf[x] ^ flagB[flagBPos]
 				flagBPos++
@@ -101,7 +113,73 @@ func main() {
 				mask = 0x80
 				flagAPos++
 			}
-			fmt.Println(flagBuf)
+		}
+		for x := 0; x < int(flagSize); x++ {
+			vv := flagBuf[x]
+			v := vv >> 4
+			if v == 0 {
+				fmt.Printf("(%d, %d) %d: ", x, y, v)
+				if header.Colors == 16 {
+					c := (pixel[src] >> 4)
+					fmt.Printf("%d,", c)
+					data = append(data, c)
+					c = (pixel[src] & 0xf)
+					fmt.Printf("%d,", c)
+					data = append(data, c)
+					src++
+					c = (pixel[src] >> 4)
+					fmt.Printf("%d,", c)
+					data = append(data, c)
+					c = (pixel[src] & 0xf)
+					fmt.Printf("%d\n", c)
+					data = append(data, c)
+					src++
+					dest += 4
+				}
+			} else {
+				fmt.Printf("(%d, %d) %d: ", x, y, v)
+				if header.Colors == 16 {
+					copySrc := dest + copypos[v]
+					fmt.Printf("%d,%d,%d,%d\n", data[copySrc], data[copySrc + 1], data[copySrc + 2], data[copySrc + 3])
+					data = append(data, data[copySrc])
+					data = append(data, data[copySrc + 1])
+					data = append(data, data[copySrc + 2])
+					data = append(data, data[copySrc + 3])
+					dest += 4
+				}
+			}
+			v = vv & 0xf
+			if v == 0 {
+				fmt.Printf("(%d, %d) %d: ", x, y, v)
+				if header.Colors == 16 {
+					c := (pixel[src] >> 4)
+					fmt.Printf("%d,", c)
+					data = append(data, c)
+					c = (pixel[src] & 0xf)
+					fmt.Printf("%d,", c)
+					data = append(data, c)
+					src++
+					c = (pixel[src] >> 4)
+					fmt.Printf("%d,", c)
+					data = append(data, c)
+					c = (pixel[src] & 0xf)
+					fmt.Printf("%d\n", c)
+					data = append(data, c)
+					src++
+					dest += 4
+				}
+			} else {
+				fmt.Printf("(%d, %d) %d: ", x, y, v)
+				if header.Colors == 16 {
+					copySrc := dest + copypos[v]
+					fmt.Printf("%d,%d,%d,%d\n", data[copySrc], data[copySrc + 1], data[copySrc + 2], data[copySrc + 3])
+					data = append(data, data[copySrc])
+					data = append(data, data[copySrc + 1])
+					data = append(data, data[copySrc + 2])
+					data = append(data, data[copySrc + 3])
+					dest += 4
+				}
+			}
 		}
 	}
 }
