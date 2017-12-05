@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"os"
 	"flag"
+	"image"
+	"image/color"
+	"image/png"
 
 	"github.com/takatoh/magconv/mag"
 )
@@ -189,10 +192,24 @@ func main() {
 		e := s + int(header.Width)
 		result = append(result, data[s:e])
 	}
-	for y := 0; y < int(header.Height); y++ {
-		fmt.Println("---")
-		for x := 0; x < int(header.Width); x++ {
-			fmt.Printf("%v\n", result[y][x])
+
+	w := int(header.Width)
+	h := int(header.Height)
+	img := image.NewRGBA(image.Rect(0, 0, w, h))
+	for x := 0; x < w; x++ {
+		for y := 0; y < h; y++ {
+			r := result[y][x].R * 16
+			g := result[y][x].G * 16
+			b := result[y][x].B * 16
+			c := color.RGBA{r, g, b, 255}
+			img.Set(x, y, c)
 		}
 	}
+
+	f, err := os.OpenFile("sample.png", os.O_WRONLY|os.O_CREATE, 0600)
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer f.Close()
+	png.Encode(f, img)
 }
