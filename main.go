@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	progVersion = "v0.1.0"
+	progVersion = "v0.1.1"
 )
 
 func printFlag(flag []byte, name string, size uint32) {
