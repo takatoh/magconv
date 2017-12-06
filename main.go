@@ -13,6 +13,10 @@ import (
 	"github.com/takatoh/magconv/mag"
 )
 
+const (
+	progVersion = "v0.1.0"
+)
+
 func printFlag(flag []byte, name string, size uint32) {
 	flagLen := len(flag)
 	fmt.Printf("%s: %d\n", name, flagLen)
@@ -35,7 +39,13 @@ Options:
 	opt_flags := flag.Bool("flags", false, "Print flag A and B.")
 	opt_palettes := flag.Bool("palettes", false, "Print palettes.")
 	opt_pixels := flag.Bool("pixels", false, "Print pixels.")
+	opt_version := flag.Bool("version", false, "Show version.")
 	flag.Parse()
+
+	if *opt_version {
+		fmt.Println(progVersion)
+		os.Exit(0)
+	}
 
 	filename := flag.Args()[0]
 	magfile, err := os.Open(filename)
