@@ -105,7 +105,7 @@ Options:
 		os.Exit(0)
 	}
 
-	result := mag.Load(header, magfile)
+	result := mag.Load(magfile, header)
 
 	w := int(header.Width)
 	h := int(header.Height)
