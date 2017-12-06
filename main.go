@@ -69,15 +69,17 @@ func main() {
 		os.Exit(0)
 	}
 
-	flagA := mag.ReadFlagA(magfile, header.FlgASize)
-	flagB := mag.ReadFlagB(magfile, header.FlgBSize)
 	if *opt_printflag {
+		flagA := mag.ReadFlagA(magfile, header.FlgASize)
+		flagB := mag.ReadFlagB(magfile, header.FlgBSize)
 		printFlag(flagA, "Flag A", header.FlgASize)
 		printFlag(flagB, "Flag B", header.FlgBSize)
 	}
 
-	pixel := mag.ReadPixel(magfile, header.PxSize)
 	if *opt_pixels {
+		flagA := mag.ReadFlagA(magfile, header.FlgASize)
+		flagB := mag.ReadFlagB(magfile, header.FlgBSize)
+		pixel := mag.ReadPixel(magfile, header.PxSize)
 		printFlag(pixel, "Pixels", header.PxSize)
 	}
 
