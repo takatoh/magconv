@@ -3,13 +3,13 @@ package mag
 import (
 	"os"
 //	"io"
-	"bufio"
-	"bytes"
-	"encoding/binary"
-	"strings"
+//	"bufio"
+//	"bytes"
+//	"encoding/binary"
+//	"strings"
 
-	"golang.org/x/text/encoding/japanese"
-	"golang.org/x/text/transform"
+//	"golang.org/x/text/encoding/japanese"
+//	"golang.org/x/text/transform"
 
 	"github.com/takatoh/magconv/util"
 )
@@ -70,7 +70,7 @@ func MachineCode(file *os.File) string {
 func User(file *os.File) string {
 	buf := make([]byte, 18 + 2)
 	file.Read(buf)
-	return convertFromShiftJIS(buf[0:18])
+	return util.ConvertFromShiftJIS(buf[0:18])
 }
 
 func Comment(file *os.File) string {
@@ -81,7 +81,7 @@ func Comment(file *os.File) string {
 		if c[0] == 0x1A { break }
 		buf = append(buf, c[0])
 	}
-	return util.convertFromShiftJIS(buf)
+	return util.ConvertFromShiftJIS(buf)
 }
 
 func ReadHeader(file *os.File) *Header {
