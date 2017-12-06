@@ -70,6 +70,7 @@ func main() {
 	}
 
 	if *opt_printflag {
+		mag.ReadPalettes(magfile, header.Colors)
 		flagA := mag.ReadFlagA(magfile, header.FlgASize)
 		flagB := mag.ReadFlagB(magfile, header.FlgBSize)
 		printFlag(flagA, "Flag A", header.FlgASize)
@@ -78,6 +79,7 @@ func main() {
 	}
 
 	if *opt_pixels {
+		mag.ReadPalettes(magfile, header.Colors)
 		mag.ReadFlagA(magfile, header.FlgASize)
 		mag.ReadFlagB(magfile, header.FlgBSize)
 		pixel := mag.ReadPixel(magfile, header.PxSize)
