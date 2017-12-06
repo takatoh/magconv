@@ -136,7 +136,8 @@ func ReadPixel(file *os.File, size uint32) []byte {
 	return pxl
 }
 
-func Load(header *Header, palettes []*Palette, file *os.File) [][]*Palette {
+func Load(header *Header, file *os.File) [][]*Palette {
+	palettes := ReadPalettes(file, header.Colors)
 	flagA := ReadFlagA(file, header.FlgASize)
 	flagB := ReadFlagB(file, header.FlgBSize)
 	pixel := ReadPixel(file, header.PxSize)

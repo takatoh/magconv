@@ -60,8 +60,8 @@ func main() {
 		os.Exit(0)
 	}
 
-	palettes := mag.ReadPalettes(magfile, header.Colors)
 	if *opt_palettes {
+		palettes := mag.ReadPalettes(magfile, header.Colors)
 		fmt.Println("Palettes:")
 		for i, palette := range palettes {
 			fmt.Printf("%d: r=%02x, g=%02x, b=%02x\n", i, palette.R, palette.G, palette.B)
@@ -85,7 +85,7 @@ func main() {
 		os.Exit(0)
 	}
 
-	result := mag.Load(header, palettes, magfile)
+	result := mag.Load(header, magfile)
 
 	w := int(header.Width)
 	h := int(header.Height)
