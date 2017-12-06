@@ -32,7 +32,7 @@ Options:
 		flag.PrintDefaults()
 	}
 	opt_info := flag.Bool("info", false, "Display informations.")
-	opt_printflag := flag.Bool("printflag", false, "Print flag A and B.")
+	opt_flags := flag.Bool("flags", false, "Print flag A and B.")
 	opt_palettes := flag.Bool("palettes", false, "Print palettes.")
 	opt_pixels := flag.Bool("pixels", false, "Print pixels.")
 	flag.Parse()
@@ -77,7 +77,7 @@ Options:
 		os.Exit(0)
 	}
 
-	if *opt_printflag {
+	if *opt_flags {
 		mag.ReadPalettes(magfile, header.Colors)
 		flagA := mag.ReadFlagA(magfile, header.FlgASize)
 		flagB := mag.ReadFlagB(magfile, header.FlgBSize)
