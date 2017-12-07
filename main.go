@@ -55,20 +55,23 @@ Options:
 	}
 	defer magfile.Close()
 
-	check := mag.CheckMag(magfile)
+	loader := mag.NewLoader(magfile)
+
+	check := loader.CheckMag
 	if !check {
 		fmt.Fprintln(os.Stderr, "Not MAG format")
 		os.Exit(0)
 	}
 
-	mag.MachineCode(magfile)
-	user := mag.User(magfile)
-	comment := mag.Comment(magfile)
-	header := mag.ReadHeader(magfile)
+//	mag.MachineCode(magfile)
+//	user := mag.User(magfile)
+//	comment := mag.Comment(magfile)
+//	header := mag.ReadHeader(magfile)
 
 	if *opt_info {
-		fmt.Printf("user=%s\n", user)
-		fmt.Printf("comment=%s\n", comment)
+		header := loader.Header
+		fmt.Printf("user=%s\n", loader.User)
+		fmt.Printf("comment=%s\n", loader.Comment)
 		fmt.Printf("colors=%d\n", header.Colors)
 		fmt.Printf("width=%d, height=%d\n", header.Width, header.Height)
 		fmt.Printf("FlagA: offset=%d size=%d\n", header.FlgAOffset, header.FlgASize)
@@ -79,8 +82,9 @@ Options:
 	}
 
 	if *opt_palettes {
-		palettes := mag.ReadPalettes(magfile, header.Colors)
+//		palettes := mag.ReadPalettes(magfile, header.Colors)
 		fmt.Println("Palettes:")
+		palettes := loader.Palettes
 		for i, palette := range palettes {
 			fmt.Printf("%d: r=%02x, g=%02x, b=%02x\n", i, palette.R, palette.G, palette.B)
 		}
@@ -88,27 +92,28 @@ Options:
 	}
 
 	if *opt_flags {
-		mag.ReadPalettes(magfile, header.Colors)
-		flagA := mag.ReadFlagA(magfile, header.FlgASize)
-		flagB := mag.ReadFlagB(magfile, header.FlgBSize)
-		printFlag(flagA, "Flag A", header.FlgASize)
-		printFlag(flagB, "Flag B", header.FlgBSize)
+//		mag.ReadPalettes(magfile, header.Colors)
+//		flagA := mag.ReadFlagA(magfile, header.FlgASize)
+//		flagB := mag.ReadFlagB(magfile, header.FlgBSize)
+		printFlag(loader.FlagA, "Flag A", loader.Header.FlgASize)
+		printFlag(loader.FlagB, "Flag B", loader.Header.FlgBSize)
 		os.Exit(0)
 	}
 
 	if *opt_pixels {
-		mag.ReadPalettes(magfile, header.Colors)
-		mag.ReadFlagA(magfile, header.FlgASize)
-		mag.ReadFlagB(magfile, header.FlgBSize)
-		pixel := mag.ReadPixel(magfile, header.PxSize)
-		printFlag(pixel, "Pixels", header.PxSize)
+//		mag.ReadPalettes(magfile, header.Colors)
+//		mag.ReadFlagA(magfile, header.FlgASize)
+//		mag.ReadFlagB(magfile, header.FlgBSize)
+//		pixel := mag.ReadPixel(magfile, header.PxSize)
+		printFlag(loader.Pixel, "Pixels", loader.Header.PxSize)
 		os.Exit(0)
 	}
 
-	result := mag.Load(magfile, header)
+//	result := mag.Load(magfile, header)
+	result := loader.Load()
 
-	w := int(header.Width)
-	h := int(header.Height)
+	w := int(loader.Header.Width)
+	h := int(loader.Header.Height)
 	img := image.NewRGBA(image.Rect(0, 0, w, h))
 	for x := 0; x < w; x++ {
 		for y := 0; y < h; y++ {
