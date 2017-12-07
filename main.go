@@ -63,6 +63,8 @@ Options:
 		os.Exit(0)
 	}
 
+	loader.Load(magfile)
+
 	if *opt_info {
 		header := loader.Header
 		fmt.Printf("user=%s\n", loader.User)
@@ -96,7 +98,7 @@ Options:
 		os.Exit(0)
 	}
 
-	result := loader.Load()
+	result := loader.Expand()
 
 	w := int(loader.Header.Width)
 	h := int(loader.Header.Height)
