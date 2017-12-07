@@ -18,6 +18,20 @@ type Loader struct {
 	Pixel []byte	
 }
 
+func NewLoader(file *os.File) *Loader {
+	loader := new(Loader)
+	loader.ChecMag = CheckMag(file)
+	loader.MachineCode = MachineCode(file)
+	loader.User = User(file)
+	loader.Comment = Commet(file)
+	loader.Header = ReadHeader(file)
+	loader.Palettes = ReadPalettes(file, loader.Header.Colors)
+	loader.FlagA = ReadFlagA(file, loader.Header.FlgASize)
+	loader.FlagB = ReadFlagB(file, loader.Header.FlgBSize)
+	loader.Pixel = ReadPixel(file, loader.Header.PxSize)
+	return loader
+}
+
 type Header struct {
 	Colors     int
 	StartX     uint16
