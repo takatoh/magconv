@@ -21,18 +21,21 @@ type Loader struct {
 func NewLoader(file *os.File) *Loader {
 	loader := new(Loader)
 	loader.CheckMag = CheckMag(file)
-	loader.MachineCode = MachineCode(file)
-	loader.User = User(file)
-	loader.Comment = Comment(file)
-	loader.Header = ReadHeader(file)
-	loader.Palettes = ReadPalettes(file, loader.Header.Colors)
-	loader.FlagA = ReadFlagA(file, loader.Header.FlgASize)
-	loader.FlagB = ReadFlagB(file, loader.Header.FlgBSize)
-	loader.Pixel = ReadPixel(file, loader.Header.PxSize)
 	return loader
 }
 
-func (l *Loader) Load() [][]*Palette {
+func (l *Loader) Load(file *os.File) {
+	l.MachineCode = MachineCode(file)
+	l.User = User(file)
+	l.Comment = Comment(file)
+	l.Header = ReadHeader(file)
+	l.Palettes = ReadPalettes(file, l.Header.Colors)
+	l.FlagA = ReadFlagA(file, l.Header.FlgASize)
+	l.FlagB = ReadFlagB(file, l.Header.FlgBSize)
+	l.Pixel = ReadPixel(file, l.Header.PxSize)
+}
+
+func (l *Loader) Expand() [][]*Palette {
 	header := l.Header
 	palettes := l.Palettes
 	flagA := l.FlagA
