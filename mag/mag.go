@@ -6,6 +6,18 @@ import (
 	"github.com/takatoh/magconv/util"
 )
 
+type Loader struct {
+	CheckMag bool
+	MachineCode string
+	User string
+	Comment string
+	Header *Header
+	Palettes []*Palette
+	FlagA []byte
+	FlabB []byte
+	Pixel []byte	
+}
+
 type Header struct {
 	Colors     int
 	StartX     uint16
