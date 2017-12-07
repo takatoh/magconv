@@ -7,16 +7,16 @@ import (
 )
 
 type Loader struct {
-	magfile *os.File
-	CheckMag bool
+	magfile     *os.File
+	CheckMag    bool
 	MachineCode string
-	User string
-	Comment string
-	Header *Header
-	Palettes []*Palette
-	FlagA []byte
-	FlagB []byte
-	Pixel []byte	
+	User        string
+	Comment     string
+	Header      *Header
+	Palettes    []*Palette
+	FlagA       []byte
+	FlagB       []byte
+	Pixel       []byte	
 }
 
 func NewLoader(file *os.File) *Loader {
