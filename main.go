@@ -63,7 +63,7 @@ Options:
 		os.Exit(0)
 	}
 
-	loader.Load(magfile)
+	loader.Load()
 
 	if *opt_info {
 		header := loader.Header

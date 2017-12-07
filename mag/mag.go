@@ -7,6 +7,7 @@ import (
 )
 
 type Loader struct {
+	magfile *os.File
 	CheckMag bool
 	MachineCode string
 	User string
@@ -20,19 +21,20 @@ type Loader struct {
 
 func NewLoader(file *os.File) *Loader {
 	loader := new(Loader)
-	loader.CheckMag = CheckMag(file)
+	loader.magfile = file
+	loader.CheckMag = CheckMag(loader.magfile)
 	return loader
 }
 
-func (l *Loader) Load(file *os.File) {
-	l.MachineCode = MachineCode(file)
-	l.User = User(file)
-	l.Comment = Comment(file)
-	l.Header = ReadHeader(file)
-	l.Palettes = ReadPalettes(file, l.Header.Colors)
-	l.FlagA = ReadFlagA(file, l.Header.FlgASize)
-	l.FlagB = ReadFlagB(file, l.Header.FlgBSize)
-	l.Pixel = ReadPixel(file, l.Header.PxSize)
+func (l *Loader) Load() {
+	l.MachineCode = MachineCode(l.magfile)
+	l.User = User(l.magfile)
+	l.Comment = Comment(l.magfile)
+	l.Header = ReadHeader(l.magfile)
+	l.Palettes = ReadPalettes(l.magfile, l.Header.Colors)
+	l.FlagA = ReadFlagA(l.magfile, l.Header.FlgASize)
+	l.FlagB = ReadFlagB(l.magfile, l.Header.FlgBSize)
+	l.Pixel = ReadPixel(l.magfile, l.Header.PxSize)
 }
 
 func (l *Loader) Expand() [][]*Palette {
