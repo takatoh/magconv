@@ -17,11 +17,10 @@ const (
 	progVersion = "v0.1.1"
 )
 
-func printFlag(flag []byte, name string, size uint32) {
+func printFlag(flag []byte, name string) {
 	flagLen := len(flag)
 	fmt.Printf("%s: %d\n", name, flagLen)
-	var i uint32
-	for i = 0; i < size; i++ {
+	for i := 0; i < flagLen; i++ {
 		fmt.Printf("%08b\n", flag[i])
 	}
 }
@@ -88,13 +87,13 @@ Options:
 	}
 
 	if *opt_flags {
-		printFlag(loader.FlagA, "Flag A", loader.Header.FlgASize)
-		printFlag(loader.FlagB, "Flag B", loader.Header.FlgBSize)
+		printFlag(loader.FlagA, "Flag A")
+		printFlag(loader.FlagB, "Flag B")
 		os.Exit(0)
 	}
 
 	if *opt_pixels {
-		printFlag(loader.Pixel, "Pixels", loader.Header.PxSize)
+		printFlag(loader.Pixel, "Pixels")
 		os.Exit(0)
 	}
 
