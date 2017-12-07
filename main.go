@@ -63,11 +63,6 @@ Options:
 		os.Exit(0)
 	}
 
-//	mag.MachineCode(magfile)
-//	user := mag.User(magfile)
-//	comment := mag.Comment(magfile)
-//	header := mag.ReadHeader(magfile)
-
 	if *opt_info {
 		header := loader.Header
 		fmt.Printf("user=%s\n", loader.User)
@@ -82,9 +77,8 @@ Options:
 	}
 
 	if *opt_palettes {
-//		palettes := mag.ReadPalettes(magfile, header.Colors)
-		fmt.Println("Palettes:")
 		palettes := loader.Palettes
+		fmt.Println("Palettes:")
 		for i, palette := range palettes {
 			fmt.Printf("%d: r=%02x, g=%02x, b=%02x\n", i, palette.R, palette.G, palette.B)
 		}
@@ -92,24 +86,16 @@ Options:
 	}
 
 	if *opt_flags {
-//		mag.ReadPalettes(magfile, header.Colors)
-//		flagA := mag.ReadFlagA(magfile, header.FlgASize)
-//		flagB := mag.ReadFlagB(magfile, header.FlgBSize)
 		printFlag(loader.FlagA, "Flag A", loader.Header.FlgASize)
 		printFlag(loader.FlagB, "Flag B", loader.Header.FlgBSize)
 		os.Exit(0)
 	}
 
 	if *opt_pixels {
-//		mag.ReadPalettes(magfile, header.Colors)
-//		mag.ReadFlagA(magfile, header.FlgASize)
-//		mag.ReadFlagB(magfile, header.FlgBSize)
-//		pixel := mag.ReadPixel(magfile, header.PxSize)
 		printFlag(loader.Pixel, "Pixels", loader.Header.PxSize)
 		os.Exit(0)
 	}
 
-//	result := mag.Load(magfile, header)
 	result := loader.Load()
 
 	w := int(loader.Header.Width)
