@@ -14,22 +14,129 @@ type Loader struct {
 	Header *Header
 	Palettes []*Palette
 	FlagA []byte
-	FlabB []byte
+	FlagB []byte
 	Pixel []byte	
 }
 
 func NewLoader(file *os.File) *Loader {
 	loader := new(Loader)
-	loader.ChecMag = CheckMag(file)
+	loader.CheckMag = CheckMag(file)
 	loader.MachineCode = MachineCode(file)
 	loader.User = User(file)
-	loader.Comment = Commet(file)
+	loader.Comment = Comment(file)
 	loader.Header = ReadHeader(file)
 	loader.Palettes = ReadPalettes(file, loader.Header.Colors)
 	loader.FlagA = ReadFlagA(file, loader.Header.FlgASize)
 	loader.FlagB = ReadFlagB(file, loader.Header.FlgBSize)
 	loader.Pixel = ReadPixel(file, loader.Header.PxSize)
 	return loader
+}
+
+func (l *Loader) Load() [][]*Palette {
+	header := l.Header
+	palettes := l.Palettes
+	flagA := l.FlagA
+	flagB := l.FlagB
+	pixel := l.Pixel
+
+	var pixelUnitLog uint
+	if header.Colors == 256 {
+		pixelUnitLog = 1
+	} else {
+		pixelUnitLog = 2
+	}
+	flagSize := header.Width >> (pixelUnitLog + 1)
+
+	copyx := [16]int{ 0,1,2,4,0,1,0,1,2,0,1,2,0,1,2,0 } 
+	copyy := [16]int{ 0,0,0,0,1,1,2,2,2,4,4,4,8,8,8,16 }
+	var copypos [16]int
+	for i := 0; i < 16; i++ {
+		copypos[i] = -(copyy[i] * int(header.Width) + (copyx[i] << pixelUnitLog))
+	}
+
+	data := make([]*Palette, 0)
+	src := 0
+	dest := 0
+
+	flagBuf := make([]byte, flagSize)
+	var flagAPos int
+	var flagBPos int
+
+	var mask uint8 = 0x80
+	for y := 0; y < int(header.Height); y++ {
+		for x := 0; x < int(flagSize); x++ {
+			if flagA[flagAPos] & mask != 0x00 {
+				flagBuf[x] = flagBuf[x] ^ flagB[flagBPos]
+				flagBPos++
+			}
+			mask = mask >> 1
+			if mask == 0 {
+				mask = 0x80
+				flagAPos++
+			}
+		}
+		for x := 0; x < int(flagSize); x++ {
+			vv := flagBuf[x]
+			v := vv >> 4
+			if v == 0 {
+				if header.Colors == 16 {
+					c := (pixel[src] >> 4)
+					data = append(data, palettes[c])
+					c = (pixel[src] & 0xf)
+					data = append(data, palettes[c])
+					src++
+					c = (pixel[src] >> 4)
+					data = append(data, palettes[c])
+					c = (pixel[src] & 0xf)
+					data = append(data, palettes[c])
+					src++
+					dest += 4
+				}
+			} else {
+				if header.Colors == 16 {
+					copySrc := dest + copypos[v]
+					data = append(data, data[copySrc])
+					data = append(data, data[copySrc + 1])
+					data = append(data, data[copySrc + 2])
+					data = append(data, data[copySrc + 3])
+					dest += 4
+				}
+			}
+			v = vv & 0xf
+			if v == 0 {
+				if header.Colors == 16 {
+					c := (pixel[src] >> 4)
+					data = append(data, palettes[c])
+					c = (pixel[src] & 0xf)
+					data = append(data, palettes[c])
+					src++
+					c = (pixel[src] >> 4)
+					data = append(data, palettes[c])
+					c = (pixel[src] & 0xf)
+					data = append(data, palettes[c])
+					src++
+					dest += 4
+				}
+			} else {
+				if header.Colors == 16 {
+					copySrc := dest + copypos[v]
+					data = append(data, data[copySrc])
+					data = append(data, data[copySrc + 1])
+					data = append(data, data[copySrc + 2])
+					data = append(data, data[copySrc + 3])
+					dest += 4
+				}
+			}
+		}
+	}
+
+	result := make([][]*Palette, 0)
+	for y := 0; y < int(header.Height); y++ {
+		s := y * int(header.Width)
+		e := s + int(header.Width)
+		result = append(result, data[s:e])
+	}
+	return result
 }
 
 type Header struct {
