@@ -19,11 +19,8 @@ type Loader struct {
 	Pixel       []byte	
 }
 
-//func NewLoader(file *os.File) *Loader {
 func NewLoader() *Loader {
 	loader := new(Loader)
-//	loader.magfile = file
-//	loader.CheckMag = CheckMag(loader.magfile)
 	return loader
 }
 
