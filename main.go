@@ -50,15 +50,9 @@ Options:
 	loader := mag.NewLoader()
 
 	pattern := flag.Args()[0]
-//	fmt.Println(pattern)
 	filenames, _ := filepath.Glob(pattern)
-//	fmt.Println(filenames)
 
 	for _, filename := range filenames {
-//	filename := flag.Args()[0]
-
-//		fmt.Println(filename)
-
 		magfile, err := os.Open(filename)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Cannot open file: %s\n", filename)
