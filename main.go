@@ -54,8 +54,9 @@ Options:
 	}
 	defer magfile.Close()
 
-	loader := mag.NewLoader(magfile)
+	loader := mag.NewLoader()
 
+	loader.Init(magfile)
 	check := loader.CheckMag
 	if !check {
 		fmt.Fprintln(os.Stderr, "Not MAG format")
