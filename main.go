@@ -80,8 +80,8 @@ Options:
 			fmt.Printf("FlagA: offset=%d size=%d\n", header.FlgAOffset, header.FlgASize)
 			fmt.Printf("FlagB: offset=%d size=%d\n", header.FlgBOffset, header.FlgBSize)
 			fmt.Printf("Pixel: offset=%d size=%d\n", header.PxOffset, header.PxSize)
-
-			os.Exit(0)
+			continue
+//			os.Exit(0)
 		}
 
 		if *opt_palettes {
