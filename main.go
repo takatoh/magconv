@@ -53,6 +53,7 @@ Options:
 	filenames, _ := filepath.Glob(pattern)
 
 	for _, filename := range filenames {
+		fmt.Println(filename)
 		magfile, err := os.Open(filename)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Cannot open file: %s\n", filename)
