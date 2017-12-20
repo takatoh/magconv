@@ -64,8 +64,9 @@ Options:
 		loader.Init(magfile)
 		check := loader.CheckMag
 		if !check {
-			fmt.Fprintln(os.Stderr, "Not MAG format")
-			os.Exit(0)
+			fmt.Fprintln(os.Stderr, "  => Not MAG format")
+//			os.Exit(0)
+			continue
 		}
 
 		loader.Load()
