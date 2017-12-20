@@ -65,7 +65,6 @@ Options:
 		check := loader.CheckMag
 		if !check {
 			fmt.Fprintln(os.Stderr, "  => Not MAG format")
-//			os.Exit(0)
 			continue
 		}
 
@@ -82,7 +81,6 @@ Options:
 			fmt.Printf("FlagB: offset=%d size=%d\n", header.FlgBOffset, header.FlgBSize)
 			fmt.Printf("Pixel: offset=%d size=%d\n", header.PxOffset, header.PxSize)
 			continue
-//			os.Exit(0)
 		}
 
 		if *opt_palettes {
