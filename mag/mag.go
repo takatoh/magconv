@@ -26,7 +26,7 @@ func NewLoader() *Loader {
 
 func (l *Loader) Init(file *os.File) {
 	l.magfile = file
-	l.CheckMag = CheckMag(l.magfile)
+	l.CheckMag = checkMag(l.magfile)
 	l.MachineCode = ""
 	l.User = ""
 	l.Comment = ""
@@ -38,14 +38,14 @@ func (l *Loader) Init(file *os.File) {
 }
 
 func (l *Loader) Load() {
-	l.MachineCode = MachineCode(l.magfile)
-	l.User = User(l.magfile)
-	l.Comment = Comment(l.magfile)
-	l.Header = ReadHeader(l.magfile)
-	l.Palettes = ReadPalettes(l.magfile, l.Header.Colors)
-	l.FlagA = ReadFlagA(l.magfile, l.Header.FlgASize)
-	l.FlagB = ReadFlagB(l.magfile, l.Header.FlgBSize)
-	l.Pixel = ReadPixel(l.magfile, l.Header.PxSize)
+	l.MachineCode = machineCode(l.magfile)
+	l.User = user(l.magfile)
+	l.Comment = comment(l.magfile)
+	l.Header = readHeader(l.magfile)
+	l.Palettes = readPalettes(l.magfile, l.Header.Colors)
+	l.FlagA = readFlagA(l.magfile, l.Header.FlgASize)
+	l.FlagB = readFlagB(l.magfile, l.Header.FlgBSize)
+	l.Pixel = readPixel(l.magfile, l.Header.PxSize)
 }
 
 func (l *Loader) Expand() [][]*Palette {
@@ -171,7 +171,7 @@ type Header struct {
 	Height     uint16
 }
 
-func NewHeader() *Header {
+func newHeader() *Header {
 	p := new(Header)
 	return p
 }
@@ -182,7 +182,7 @@ type Palette struct {
 	B uint8
 }
 
-func NewPalette(g, r, b uint8) *Palette {
+func newPalette(g, r, b uint8) *Palette {
 	p := new(Palette)
 	p.R = r
 	p.G = g
@@ -190,7 +190,7 @@ func NewPalette(g, r, b uint8) *Palette {
 	return p
 }
 
-func CheckMag(file *os.File) bool {
+func checkMag(file *os.File) bool {
 	buf := make([]byte, 8)
 	n, _ := file.Read(buf)
 	if n != 8 {
@@ -202,19 +202,19 @@ func CheckMag(file *os.File) bool {
 	}
 }
 
-func MachineCode(file *os.File) string {
+func machineCode(file *os.File) string {
 	buf := make([]byte, 4)
 	file.Read(buf)
 	return string(buf)
 }
 
-func User(file *os.File) string {
+func user(file *os.File) string {
 	buf := make([]byte, 18 + 2)
 	file.Read(buf)
 	return util.ConvertFromShiftJIS(buf[0:18])
 }
 
-func Comment(file *os.File) string {
+func comment(file *os.File) string {
 	c := make([]byte, 1)
 	buf := make([]byte, 0)
 	for {
@@ -225,8 +225,8 @@ func Comment(file *os.File) string {
 	return util.ConvertFromShiftJIS(buf)
 }
 
-func ReadHeader(file *os.File) *Header {
-	header := NewHeader()
+func readHeader(file *os.File) *Header {
+	header := newHeader()
 
 	for i := 0; i < 3; i++ {
 		util.ReadUint8(file)
@@ -256,30 +256,30 @@ func ReadHeader(file *os.File) *Header {
 	return header
 }
 
-func ReadPalettes(file *os.File, n int) []*Palette {
+func readPalettes(file *os.File, n int) []*Palette {
 	palettes := make([]*Palette, 0)
 	for i := 0; i < n; i++ {
 		g := util.ReadUint8(file) >> 4
 		r := util.ReadUint8(file) >> 4
 		b := util.ReadUint8(file) >> 4
-		palettes = append(palettes, NewPalette(g, r, b))
+		palettes = append(palettes, newPalette(g, r, b))
 	}
 	return palettes
 }
 
-func ReadFlagA(file *os.File, size uint32) []byte {
+func readFlagA(file *os.File, size uint32) []byte {
 	flgA := make([]byte, size)
 	file.Read(flgA)
 	return flgA
 }
 
-func ReadFlagB(file *os.File, size uint32) []byte {
+func readFlagB(file *os.File, size uint32) []byte {
 	flgB := make([]byte, size)
 	file.Read(flgB)
 	return flgB
 }
 
-func ReadPixel(file *os.File, size uint32) []byte {
+func readPixel(file *os.File, size uint32) []byte {
 	pxl := make([]byte, size)
 	file.Read(pxl)
 	return pxl
