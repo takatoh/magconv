@@ -53,7 +53,7 @@ Options:
 	filenames, _ := filepath.Glob(pattern)
 
 	for _, filename := range filenames {
-		fmt.Println(filename)
+//		fmt.Println(filename)
 		magfile, err := os.Open(filename)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Cannot open file: %s\n", filename)
@@ -72,6 +72,7 @@ Options:
 
 		if *opt_info {
 			header := loader.Header
+			fmt.Println(filename)
 			fmt.Printf("user=%s\n", loader.User)
 			fmt.Printf("comment=%s\n", loader.Comment)
 			fmt.Printf("colors=%d\n", header.Colors)
@@ -120,7 +121,7 @@ Options:
 
 		ext := path.Ext(filename)
 		pngFilename := strings.Replace(filename, ext, ".png", 1)
-		fmt.Println("  => " + pngFilename)
+//		fmt.Println("  => " + pngFilename)
 		f, err := os.OpenFile(pngFilename, os.O_WRONLY|os.O_CREATE, 0600)
 		if err != nil {
 			fmt.Println(err)
