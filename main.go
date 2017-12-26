@@ -53,7 +53,6 @@ Options:
 	filenames, _ := filepath.Glob(pattern)
 
 	for _, filename := range filenames {
-//		fmt.Println(filename)
 		magfile, err := os.Open(filename)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Cannot open file: %s\n", filename)
@@ -121,7 +120,6 @@ Options:
 
 		ext := path.Ext(filename)
 		pngFilename := strings.Replace(filename, ext, ".png", 1)
-//		fmt.Println("  => " + pngFilename)
 		f, err := os.OpenFile(pngFilename, os.O_WRONLY|os.O_CREATE, 0600)
 		if err != nil {
 			fmt.Println(err)
