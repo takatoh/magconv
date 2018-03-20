@@ -211,7 +211,7 @@ func machineCode(file *os.File) string {
 func user(file *os.File) string {
 	buf := make([]byte, 18 + 2)
 	file.Read(buf)
-	return util.ConvertFromShiftJIS(buf[0:18])
+	return util.DecodeShiftJIS(buf[0:18])
 }
 
 func comment(file *os.File) string {
@@ -222,7 +222,7 @@ func comment(file *os.File) string {
 		if c[0] == 0x1A { break }
 		buf = append(buf, c[0])
 	}
-	return util.ConvertFromShiftJIS(buf)
+	return util.DecodeShiftJIS(buf)
 }
 
 func readHeader(file *os.File) *Header {
