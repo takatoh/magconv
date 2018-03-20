@@ -11,7 +11,7 @@ import (
 	"golang.org/x/text/transform"
 )
 
-func ConvertFromShiftJIS(b []byte) string {
+func DecodeShiftJIS(b []byte) string {
 	r := strings.NewReader(string(b))
 	s := bufio.NewScanner(transform.NewReader(r, japanese.ShiftJIS.NewDecoder()))
 	list := make([]string, 0)
