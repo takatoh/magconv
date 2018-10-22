@@ -16,7 +16,7 @@ type Loader struct {
 	Palettes    []*Palette
 	FlagA       []byte
 	FlagB       []byte
-	Pixel       []byte	
+	Pixel       []byte
 }
 
 func NewLoader() *Loader {
