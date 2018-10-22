@@ -35,6 +35,7 @@ Options:
 `, os.Args[0])
 		flag.PrintDefaults()
 	}
+	opt_check := flag.Bool("check", false, "Check MAG format.")
 	opt_info := flag.Bool("info", false, "Display informations.")
 	opt_flags := flag.Bool("flags", false, "Print flag A and B.")
 	opt_palettes := flag.Bool("palettes", false, "Print palettes.")
@@ -62,6 +63,14 @@ Options:
 
 		loader.Init(magfile)
 		check := loader.CheckMag
+		if *opt_check {
+			if check {
+				fmt.Printf("%s is MAG format.\n", filename)
+			} else {
+				fmt.Printf("%s is NOT MAG format.\n", filename)
+			}
+			continue
+		}
 		if !check {
 			fmt.Fprintf(os.Stderr, "Not MAG format: %s\n", filename)
 			continue
