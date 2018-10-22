@@ -209,7 +209,7 @@ func machineCode(file *os.File) string {
 }
 
 func user(file *os.File) string {
-	buf := make([]byte, 18 + 2)
+	buf := make([]byte, 18)
 	file.Read(buf)
 	return util.DecodeShiftJIS(buf[0:18])
 }
