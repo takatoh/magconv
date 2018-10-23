@@ -3,7 +3,7 @@
 MAG format graphics converter to PNG.
 
 昔懐かしいMAGフォーマットの画像をPNGに変換するコンバータ。
-16色のみ対応で、256色はサポートしていない。
+16色と256色の両方をサポートしています。
 
 ## Install
 ``` go get github.com/takatoh/magconv```
@@ -12,4 +12,4 @@ MAG format graphics converter to PNG.
 ``` magconv sample.mag```
 
 ## License
-MIT
+MIT License
