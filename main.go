@@ -35,7 +35,7 @@ Options:
 `, os.Args[0])
 		flag.PrintDefaults()
 	}
-	opt_check := flag.Bool("check", false, "Check MAG format.")
+	opt_check := flag.Bool("check", false, "Check MAG format or not.")
 	opt_info := flag.Bool("info", false, "Display informations.")
 	opt_flags := flag.Bool("flags", false, "Print flag A and B.")
 	opt_palettes := flag.Bool("palettes", false, "Print palettes.")
