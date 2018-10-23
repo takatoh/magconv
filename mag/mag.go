@@ -282,9 +282,9 @@ func readHeader(file *os.File) *Header {
 	return header
 }
 
-func readPalettes(file *os.File, n int) []*Palette {
+func readPalettes(file *os.File, colors int) []*Palette {
 	palettes := make([]*Palette, 0)
-	for i := 0; i < n; i++ {
+	for i := 0; i < colors; i++ {
 		g := util.ReadUint8(file) >> 4
 		r := util.ReadUint8(file) >> 4
 		b := util.ReadUint8(file) >> 4
