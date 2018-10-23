@@ -107,6 +107,14 @@ func (l *Loader) Expand() [][]*Palette {
 					data = append(data, palettes[c])
 					src++
 					dest += 4
+				} else {
+					c := pixel[src]
+					data = append(data, palettes[c])
+					src++
+					c = pixel[src]
+					data = append(data, palettes[c])
+					src++
+					dest += 2
 				}
 			} else {
 				if header.Colors == 16 {
@@ -116,6 +124,11 @@ func (l *Loader) Expand() [][]*Palette {
 					data = append(data, data[copySrc + 2])
 					data = append(data, data[copySrc + 3])
 					dest += 4
+				} else {
+					copySrc := dest + copypos[v]
+					data = append(data, data[copySrc])
+					data = append(data, data[copySrc + 1])
+					dest += 2
 				}
 			}
 			v = vv & 0xf
@@ -132,6 +145,14 @@ func (l *Loader) Expand() [][]*Palette {
 					data = append(data, palettes[c])
 					src++
 					dest += 4
+				} else {
+					c := pixel[src]
+					data = append(data, palettes[c])
+					src++
+					c = pixel[src]
+					data = append(data, palettes[c])
+					src++
+					dest += 2
 				}
 			} else {
 				if header.Colors == 16 {
@@ -141,6 +162,11 @@ func (l *Loader) Expand() [][]*Palette {
 					data = append(data, data[copySrc + 2])
 					data = append(data, data[copySrc + 3])
 					dest += 4
+				} else {
+					copySrc := dest + copypos[v]
+					data = append(data, data[copySrc])
+					data = append(data, data[copySrc + 1])
+					dest += 2
 				}
 			}
 		}
