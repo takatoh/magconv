@@ -38,6 +38,7 @@ func (l *Loader) Init(file *os.File) {
 }
 
 func (l *Loader) Load() {
+	var flgBSize uint32
 	l.MachineCode = machineCode(l.magfile)
 	l.User = user(l.magfile)
 	l.Comment = comment(l.magfile)
@@ -46,7 +47,7 @@ func (l *Loader) Load() {
 	l.FlagA = readFlagA(l.magfile, l.Header.FlgASize)
 
 	// Perhaps a bug in the MAG image?
-	if l.Header.FlagBSize != l.Header.FlgBOffset - l.Header.FlgAOffset {
+	if l.Header.FlgBSize != l.Header.FlgBOffset - l.Header.FlgAOffset {
 		flgBSize = l.Header.FlgBOffset - l.Header.FlgAOffset
 	} else {
 		flgBSize = l.Header.FlgBSize
