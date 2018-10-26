@@ -44,7 +44,15 @@ func (l *Loader) Load() {
 	l.Header = readHeader(l.magfile)
 	l.Palettes = readPalettes(l.magfile, l.Header.Colors)
 	l.FlagA = readFlagA(l.magfile, l.Header.FlgASize)
-	l.FlagB = readFlagB(l.magfile, l.Header.FlgBSize)
+
+	// Perhaps a bug in the MAG image?
+	if l.Header.FlagBSize != l.Header.FlgBOffset - l.Header.FlgAOffset {
+		flgBSize = l.Header.FlgBOffset - l.Header.FlgAOffset
+	} else {
+		flgBSize = l.Header.FlgBSize
+	}
+	l.FlagB = readFlagB(l.magfile, flgBSize)
+
 	l.Pixel = readPixel(l.magfile, l.Header.PxSize)
 }
 
