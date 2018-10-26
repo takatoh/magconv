@@ -276,12 +276,6 @@ func readHeader(file *os.File) *Header {
 	header.FlgBSize = util.ReadUint32(file)
 	header.PxOffset = util.ReadUint32(file)
 	header.PxSize = util.ReadUint32(file)
-
-	// Perhaps a bug in the MAG image?
-	if header.FlgBSize != header.PxOffset - header.FlgBOffset {
-		header.FlgBSize = header.PxOffset - header.FlgBOffset
-	}
-
 	header.Width = header.EndX - header.StartX + 1
 	header.Height = header.EndY - header.StartY + 1
 
