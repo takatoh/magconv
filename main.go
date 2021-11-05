@@ -1,12 +1,12 @@
 package main
 
 import (
-	"fmt"
-	"os"
 	"flag"
+	"fmt"
 	"image"
 	"image/color"
 	"image/png"
+	"os"
 	"path"
 	"path/filepath"
 	"strings"
@@ -29,7 +29,7 @@ func printFlag(flag []byte, name string) {
 func main() {
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr,
-`Usage:
+			`Usage:
   %s [options] <file.mag>
 Options:
 `, os.Args[0])
